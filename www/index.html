@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SoaresScreets Menu</title>
+    <title>SoaresScreets Menu v3.0.2</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
 
         :root {
-            --bg-color: #0a0a0a;
-            --panel-bg: rgba(20, 20, 25, 0.95);
-            --primary-red: #ff2a2a;
-            --dark-red: #8b0000;
-            --text-color: #e0e0e0;
-            --input-bg: #15151a;
-            --border-color: #333;
+            --bg-dark: #050505;
+            --panel-bg: rgba(15, 15, 20, 0.95);
+            --accent-red: #ff003c;
+            --dark-red: #8a0020;
+            --text-main: #ffffff;
+            --text-dim: #888888;
+            --border-color: #333333;
             --success: #00ff41;
             --error: #ff003c;
         }
@@ -28,8 +28,8 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             font-family: 'Rajdhani', sans-serif;
             height: 100vh;
             display: flex;
@@ -39,42 +39,36 @@
             position: relative;
         }
 
-        /* Background Pattern Simulation */
-        .bg-pattern {
+        /* Background Pattern */
+        .bg-grid {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            opacity: 0.15;
             background-image: 
-                radial-gradient(circle at 50% 50%, transparent 0%, var(--bg-color) 90%),
-                linear-gradient(0deg, transparent 95%, var(--primary-red) 96%, transparent 97%),
-                linear-gradient(90deg, transparent 95%, var(--primary-red) 96%, transparent 97%);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
-            pointer-events: none;
+                linear-gradient(rgba(255, 0, 60, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 60, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
         }
         
-        /* Geometric lines simulation */
-        .geo-lines {
+        .bg-glow {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(255,0,60,0.15) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 0;
             pointer-events: none;
-            stroke: var(--primary-red);
-            stroke-width: 1;
-            fill: none;
-            opacity: 0.2;
         }
 
         .container {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             height: 100%;
-            max-height: 850px;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 15px;
         }
 
         /* LOGIN SCREEN */
@@ -85,11 +79,13 @@
             height: 100%;
             background: var(--panel-bg);
             border: 1px solid var(--dark-red);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(255, 42, 42, 0.2);
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(255, 0, 60, 0.15);
+            animation: fadeIn 0.5s ease;
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .logo-area {
             text-align: center;
@@ -97,60 +93,71 @@
         }
 
         .logo-text {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            color: var(--primary-red);
+            color: var(--text-main);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--dark-red);
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+        
+        .logo-sub {
+            color: var(--accent-red);
+            font-size: 1.2rem;
         }
 
-        .version {
-            font-size: 0.8rem;
+        .version-badge {
+            display: inline-block;
+            background: #222;
             color: #666;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
             font-family: 'Roboto Mono', monospace;
+            margin-top: 5px;
         }
 
         .input-group {
             margin-bottom: 15px;
-            position: relative;
         }
 
         label {
             display: block;
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 5px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 6px;
             font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         input[type="text"] {
             width: 100%;
-            background: var(--input-bg);
+            background: #0a0a0c;
             border: 1px solid var(--border-color);
             color: white;
-            padding: 12px;
+            padding: 14px;
             border-radius: 4px;
             font-family: 'Roboto Mono', monospace;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
 
         input[type="text"]:focus {
-            border-color: var(--primary-red);
-            box-shadow: 0 0 5px rgba(255, 42, 42, 0.3);
+            border-color: var(--accent-red);
+            box-shadow: 0 0 8px rgba(255, 0, 60, 0.2);
         }
 
-        .btn-main {
+        .btn-login {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: var(--dark-red);
-            border: 1px solid var(--primary-red);
+            border: 1px solid var(--accent-red);
             color: white;
             font-weight: 700;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             border-radius: 4px;
             text-transform: uppercase;
@@ -158,34 +165,28 @@
             transition: background 0.2s;
         }
 
-        .btn-main:active {
-            background: var(--primary-red);
+        .btn-login:active {
+            background: var(--accent-red);
         }
 
         .status-msg {
             text-align: center;
-            height: 20px;
+            height: 24px;
             font-size: 0.9rem;
             margin-bottom: 10px;
             font-weight: 600;
+            font-family: 'Roboto Mono', monospace;
         }
 
-        .status-success { color: var(--success); }
+        .status-success { color: var(--success); text-shadow: 0 0 5px var(--success); }
         .status-error { color: var(--error); }
-
-        .admin-btn {
-            background: transparent;
-            border: 1px solid #444;
-            color: #666;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
 
         /* MAIN MENU */
         #main-menu {
             display: none;
             flex-direction: column;
             height: 100%;
+            animation: fadeIn 0.3s ease;
         }
 
         .header {
@@ -197,15 +198,22 @@
             margin-bottom: 15px;
         }
 
-        .user-info {
-            font-size: 1.2rem;
-            font-weight: 600;
+        .user-info h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .user-info span {
+            font-size: 0.7rem;
+            color: #666;
+            font-family: 'Roboto Mono';
         }
 
         .close-btn {
-            width: 30px;
-            height: 30px;
-            background: #222;
+            width: 32px;
+            height: 32px;
+            background: #1a1a1a;
             border: 1px solid #444;
             color: #fff;
             display: flex;
@@ -214,29 +222,35 @@
             border-radius: 50%;
             cursor: pointer;
             font-size: 1.2rem;
+            transition: background 0.2s;
         }
+        
+        .close-btn:hover { background: #333; }
 
         .tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 20px;
         }
 
         .tab {
             flex: 1;
-            padding: 8px;
+            padding: 10px;
             background: #111;
             border: 1px solid #333;
             text-align: center;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
+            color: #666;
+            transition: all 0.2s;
         }
 
         .tab.active {
             background: var(--dark-red);
-            border-color: var(--primary-red);
+            border-color: var(--accent-red);
             color: white;
+            box-shadow: 0 0 10px rgba(255,0,60,0.2);
         }
 
         .content-area {
@@ -245,29 +259,29 @@
             padding-right: 5px;
         }
 
-        /* Scrollbar custom */
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: #444; }
+        ::-webkit-scrollbar-track { background: #0a0a0c; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
 
         .section-title {
-            font-size: 0.8rem;
-            color: #666;
+            font-size: 0.75rem;
+            color: #555;
             text-transform: uppercase;
-            margin: 15px 0 5px 0;
-            letter-spacing: 1px;
+            margin: 20px 0 8px 0;
+            letter-spacing: 1.5px;
+            font-weight: 700;
         }
 
         .control-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #1a1a1a;
         }
 
         .toggle-label {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 500;
         }
 
@@ -275,8 +289,8 @@
         .switch {
             position: relative;
             display: inline-block;
-            width: 40px;
-            height: 20px;
+            width: 44px;
+            height: 22px;
         }
 
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -286,45 +300,52 @@
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #333;
-            transition: .4s;
-            border-radius: 20px;
+            transition: .3s;
+            border-radius: 22px;
+            border: 1px solid #444;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 14px;
-            width: 14px;
-            left: 3px;
-            bottom: 3px;
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
             background-color: white;
-            transition: .4s;
+            transition: .3s;
             border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         input:checked + .slider {
-            background-color: var(--primary-red);
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
         }
 
         input:checked + .slider:before {
-            transform: translateX(20px);
+            transform: translateX(22px);
         }
 
         /* Range Slider */
         .range-container {
-            margin: 15px 0;
-            background: #111;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #333;
+            margin: 10px 0 20px 0;
+            background: #0f0f12;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #222;
         }
 
         .range-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 0.9rem;
+            font-family: 'Roboto Mono';
+            color: #aaa;
         }
+        
+        .range-val { color: var(--accent-red); font-weight: bold; }
 
         input[type=range] {
             width: 100%;
@@ -334,13 +355,14 @@
 
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 16px;
-            width: 16px;
+            height: 18px;
+            width: 18px;
             border-radius: 50%;
-            background: var(--primary-red);
+            background: var(--accent-red);
             cursor: pointer;
-            margin-top: -6px;
-            box-shadow: 0 0 5px var(--dark-red);
+            margin-top: -7px;
+            box-shadow: 0 0 10px var(--dark-red);
+            border: 2px solid #fff;
         }
 
         input[type=range]::-webkit-slider-runnable-track {
@@ -354,22 +376,23 @@
         /* Dropdown */
         .dropdown {
             width: 100%;
-            background: var(--input-bg);
+            background: #0a0a0c;
             border: 1px solid var(--border-color);
-            padding: 10px;
+            padding: 12px;
             border-radius: 4px;
             color: white;
             font-family: 'Roboto Mono', monospace;
             margin-bottom: 10px;
             appearance: none;
             cursor: pointer;
+            font-size: 0.9rem;
         }
 
         .inject-btn {
             width: 100%;
-            padding: 15px;
-            background: var(--dark-red);
-            border: none;
+            padding: 16px;
+            background: linear-gradient(180deg, var(--dark-red) 0%, #5a0010 100%);
+            border: 1px solid var(--accent-red);
             color: white;
             font-weight: 700;
             font-size: 1.1rem;
@@ -378,21 +401,25 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.2);
         }
+        
+        .inject-btn:active { transform: scale(0.98); }
         
         .inject-btn.injecting {
             background: #000;
-            border: 1px solid var(--success);
+            border-color: var(--success);
             color: var(--success);
+            box-shadow: 0 0 15px var(--success);
         }
 
-        /* Admin Panel Overlay */
+        /* Admin Panel */
         #admin-panel {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 100;
+            background: rgba(5, 5, 5, 0.98);
+            z-index: 200;
             padding: 20px;
             flex-direction: column;
         }
@@ -400,67 +427,76 @@
         .admin-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            border-bottom: 1px solid var(--primary-red);
+            border-bottom: 1px solid var(--accent-red);
             padding-bottom: 10px;
+        }
+
+        .admin-title {
+            margin: 0;
+            color: var(--accent-red);
+            font-size: 1.5rem;
+            font-weight: 700;
         }
 
         .keys-list {
             flex: 1;
             overflow-y: auto;
-            background: #111;
-            padding: 10px;
+            background: #0a0a0c;
             border: 1px solid #333;
+            padding: 5px;
         }
 
         .key-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px;
+            padding: 12px;
             border-bottom: 1px solid #222;
             font-family: 'Roboto Mono', monospace;
             font-size: 0.85rem;
-            color: #aaa;
+            color: #ccc;
+            cursor: pointer;
+            transition: background 0.2s;
         }
         
-        .key-item span { color: var(--primary-red); }
+        .key-item:hover { background: #1a1a1a; }
+        .key-item span:first-child { color: var(--accent-red); width: 30px; }
+        .key-item span:last-child { word-break: break-all; }
 
-        .copy-hint {
-            font-size: 0.7rem;
-            color: #555;
-            margin-top: 5px;
-            text-align: center;
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: black;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 300;
+            pointer-events: none;
         }
-
-        /* Animations */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 42, 42, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0); }
-        }
-
-        .pulse-anim {
-            animation: pulse 2s infinite;
-        }
+        
+        .toast.show { opacity: 1; }
 
     </style>
 </head>
 <body>
 
-    <!-- Background Effects -->
-    <div class="bg-pattern"></div>
-    <svg class="geo-lines" width="100%" height="100%">
-        <path d="M0,50 L100,50 M0,150 L100,150 M0,250 L100,250" />
-        <path d="M50,0 L50,100 M150,0 L150,100" />
-    </svg>
+    <!-- Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
 
     <div class="container">
         
         <!-- LOGIN SCREEN -->
         <div id="login-screen">
             <div class="logo-area">
-                <div class="logo-text">SOARES<span style="color:white; font-size:0.6em;">SCREETS</span></div>
-                <div class="version">v3.0.2 [BETA]</div>
+                <div class="logo-text">SOARES<span class="logo-sub">SCREETS</span></div>
+                <div class="version-badge">v3.0.2 [BETA]</div>
             </div>
 
             <div id="login-status" class="status-msg"></div>
@@ -475,17 +511,17 @@
                 <input type="text" id="apikey" placeholder="XXXX-XXXX-XXXX" autocomplete="off">
             </div>
 
-            <button class="btn-main" onclick="attemptLogin()">ENTRAR</button>
+            <button class="btn-login" onclick="attemptLogin()">ENTRAR</button>
             
-            <button id="admin-login-btn" class="btn-main admin-btn" style="display:none;" onclick="showAdminPanel()">ÁREA ADMIN (DEBUG)</button>
+            <button id="admin-login-btn" class="btn-login" style="display:none; margin-top:10px; background:#111; border-color:#444; color:#666;" onclick="showAdminPanel()">ÁREA ADMIN (DEBUG)</button>
         </div>
 
         <!-- MAIN MENU -->
         <div id="main-menu">
             <div class="header">
                 <div class="user-info">
-                    <span id="display-name">USER</span>
-                    <span style="font-size:0.7rem; color:#666; display:block; font-family:'Roboto Mono'">v3.0.2 BETA</span>
+                    <h2 id="display-name">USER</h2>
+                    <span>v3.0.2 BETA • MOBILE</span>
                 </div>
                 <div class="close-btn" onclick="logout()">✕</div>
             </div>
@@ -502,14 +538,14 @@
                 <div class="control-row">
                     <span class="toggle-label">Ativar Auxílio</span>
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" checked onchange="logAction('Auxilio')">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="control-row">
                     <span class="toggle-label">Ativar Fov</span>
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" checked onchange="logAction('Fov')">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -518,14 +554,14 @@
                 
                 <div class="range-container">
                     <div class="range-header">
-                        <span>Fov</span>
-                        <span id="fov-val">251</span>
+                        <span>Fov Radius</span>
+                        <span class="range-val" id="fov-val">251</span>
                     </div>
-                    <input type="range" min="100" max="360" value="251" oninput="document.getElementById('fov-val').innerText = this.value">
+                    <input type="range" min="100" max="360" value="251" oninput="document.getElementById('fov-val').innerText = this.value; logAction('FovChange')">
                 </div>
 
                 <div class="section-title">TIPO DE AIMBOT</div>
-                <select class="dropdown">
+                <select class="dropdown" onchange="logAction('AimType')">
                     <option>Ao Atirar</option>
                     <option>Ao Olhar</option>
                     <option>Mixto</option>
@@ -535,21 +571,28 @@
                 <div class="control-row">
                     <span class="toggle-label">Auxílio Recoil</span>
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" checked onchange="logAction('Recoil')">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="control-row">
                     <span class="toggle-label">Head Lock</span>
                     <label class="switch">
-                        <input type="checkbox">
+                        <input type="checkbox" onchange="logAction('HeadLock')">
                         <span class="slider"></span>
                     </label>
                 </div>
                  <div class="control-row">
                     <span class="toggle-label">Corpo Lock</span>
                     <label class="switch">
-                        <input type="checkbox">
+                        <input type="checkbox" onchange="logAction('BodyLock')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                 <div class="control-row">
+                    <span class="toggle-label">Silent Aim</span>
+                    <label class="switch">
+                        <input type="checkbox" onchange="logAction('SilentAim')">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -564,75 +607,81 @@
     <!-- ADMIN PANEL OVERLAY -->
     <div id="admin-panel">
         <div class="admin-header">
-            <h2 style="margin:0; color:var(--primary-red);">ADMIN DEBUG</h2>
+            <h2 class="admin-title">ADMIN DEBUG</h2>
             <div class="close-btn" onclick="hideAdminPanel()">✕</div>
         </div>
-        <div style="margin-bottom:10px; color:#888; font-size:0.8rem;">LISTA DE 20 CHAVES VÁLIDAS</div>
+        <div style="margin-bottom:10px; color:#888; font-size:0.8rem;">LISTA DE 20 CHAVES VÁLIDAS (CLIQUE PARA COPIAR)</div>
         <div class="keys-list" id="admin-keys-list">
             <!-- Populated by JS -->
         </div>
-        <div class="copy-hint">Toque em uma key para copiar</div>
     </div>
+
+    <div id="toast" class="toast">Key copiada!</div>
 
     <script>
         // --- CONFIG & STATE ---
         const ADMIN_USER = "ADMIN";
-        const ADMIN_PASS = "ADMIN"; // Hidden logic, but we use a specific key for admin too or just username check
+        const ADMIN_KEY = "ADMIN"; // Special key for admin login
         
-        // Generate 20 random keys on load
-        let validKeys = [];
-        function generateKeys() {
-            validKeys = [];
-            for(let i=0; i<20; i++) {
-                validKeys.push(generateRandomKey());
-            }
-            console.log("Generated Keys:", validKeys);
-        }
-
-        function generateRandomKey() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            let key = "";
-            for(let i=0; i<12; i++) {
-                if(i > 0 && i % 4 === 0) key += "-";
-                key += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return key;
-        }
+        // The 20 Fixed Keys
+        const VALID_KEYS = [
+            "8X9M-2K1L-4P5Q",
+            "Z7N3-W6R9-T1B2",
+            "J4H8-Y2U6-I5O3",
+            "K9L1-M3N7-B8V4",
+            "Q2W5-E8R1-T6Y3",
+            "U7I9-O1P4-A3S6",
+            "D8F2-G5H7-J4K9",
+            "L1Z3-X6C8-V9B4",
+            "M4N7-B2V5-C8X1",
+            "Z6Q9-W2E5-R8T1",
+            "Y4U7-I1O3-P6A9",
+            "S2D5-F8G1-H4J7",
+            "K9L2-Z5X8-C1V4",
+            "B7N3-M6Q9-W2E5",
+            "R8T1-Y4U7-I2O5",
+            "P3A6-S9D2-F5G8",
+            "H1J4-K7L2-Z5X8",
+            "C3V6-B9N2-M5Q8",
+            "W1E4-R7T2-Y5U8",
+            "I3O6-P9A2-S5D8"
+        ];
 
         let currentUser = null;
         let isAdminUser = false;
 
-        // Init
-        generateKeys();
-        renderAdminKeys();
-
         // --- DOM ELEMENTS ---
         const loginScreen = document.getElementById('login-screen');
-        const mainMenu = document.getElementById('main-menu');
+        const mainMenu = document.getElementById('main-menu')
         const loginStatus = document.getElementById('login-status');
         const usernameInput = document.getElementById('username');
         const apikeyInput = document.getElementById('apikey');
         const adminLoginBtn = document.getElementById('admin-login-btn');
         const adminPanel = document.getElementById('admin-panel');
         const adminKeysList = document.getElementById('admin-keys-list');
+        const toast = document.getElementById('toast');
+
+        // Init
+        renderAdminKeys();
 
         // --- FUNCTIONS ---
 
         function attemptLogin() {
+            // Get values and clean them (trim spaces, uppercase)
             const name = usernameInput.value.trim().toUpperCase();
             const key = apikeyInput.value.trim().toUpperCase();
             
             loginStatus.className = "status-msg";
             loginStatus.innerText = "";
 
-            // Check Admin Logic
-            if (name === ADMIN_USER && key === ADMIN_PASS) {
+            // 1. Check Admin Login
+            if (name === ADMIN_USER && key === ADMIN_KEY) {
                 loginSuccess(name, true);
                 return;
             }
 
-            // Check User Logic
-            if (validKeys.includes(key)) {
+            // 2. Check User Login against the 20 keys
+            if (VALID_KEYS.includes(key)) {
                 loginSuccess(name, false);
             } else {
                 showError("CHAVE INVÁLIDA OU CREDENCIAIS ERRADAS.");
@@ -654,4 +703,123 @@
                 // Show admin button only if logged in as admin
                 if(isAdmin) {
                     adminLoginBtn.style.display = 'block';
+                } else {
+                    adminLoginBtn.style.display = 'none';
                 }
+            }, 600);
+        }
+
+        function showError(msg) {
+            loginStatus.innerText = msg;
+            loginStatus.classList.add("status-error");
+            
+            // Shake effect
+            loginScreen.style.animation = "shake 0.4s cubic-bezier(.36,.07,.19,.97) both";
+            setTimeout(() => loginScreen.style.animation = "", 400);
+        }
+
+        // Add shake animation dynamically
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes shake {
+                10%, 90% { transform: translate3d(-1px, 0, 0); }
+                20%, 80% { transform: translate3d(2px, 0, 0); }
+                30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+                40%, 60% { transform: translate3d(4px, 0, 0); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        function logout() {
+            mainMenu.style.display = 'none';
+            loginScreen.style.display = 'flex';
+            usernameInput.value = "";
+            apikeyInput.value = "";
+            loginStatus.innerText = "";
+            loginStatus.className = "status-msg";
+        }
+
+        // --- ADMIN PANEL LOGIC ---
+        function showAdminPanel() {
+            adminPanel.style.display = 'flex';
+            renderAdminKeys();
+        }
+
+        function hideAdminPanel() {
+            adminPanel.style.display = 'none';
+        }
+
+        function renderAdminKeys() {
+            adminKeysList.innerHTML = "";
+            VALID_KEYS.forEach((k, index) => {
+                const div = document.createElement('div');
+                div.className = 'key-item';
+                div.innerHTML = `<span>#${index+1}</span> <span>${k}</span>`;
+                div.onclick = () => copyToClipboard(k);
+                adminKeysList.appendChild(div);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Key copiada: " + text);
+            }).catch(err => {
+                // Fallback for older browsers or non-secure contexts
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast("Key copiada: " + text);
+            });
+        }
+
+        function showToast(message) {
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // --- INJECT BUTTON LOGIC ---
+        function inject() {
+            const btn = document.getElementById('inject-btn');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "INJETANDO...";
+            btn.classList.add('injecting');
+            
+            // Simulate injection process
+            setTimeout(() => {
+                btn.innerText = "INJETADO COM SUCESSO";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('injecting');
+                }, 2000);
+            }, 1500);
+        }
+
+        // --- UTILS ---
+        function logAction(action) {
+            console.log(`[LOG] Action triggered: ${action}`);
+            // Optional: Visual feedback for toggles
+            // For now, just logging to console
+        }
+
+        // Allow Enter key to submit
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && loginScreen.style.display !== 'none') {
+                attemptLogin();
+            }
+        });
+
+        // Prevent zoom on double tap
+        document.addEventListener('dblclick', function(event) {
+            event.preventDefault();
+        }, { passive: false });
+
+    </script>
+</body>
+</html>

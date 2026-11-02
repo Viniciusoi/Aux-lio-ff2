@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Auxílio Pro</title>
+    <style>
+        :root {
+            --primary: #ffcc00; /* Amarelo FF */
+            --bg: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+            --success: #00ff00;
+            --error: #ff0000;
+            --neon: 0 0 10px var(--primary), 0 0 20px var(--primary);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+        }
+
+        /* Input Styles */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 5px var(--primary);
+        }
+
+        /* Buttons */
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff9900, #ffcc00);
+            border: none;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        button.secondary {
+            background: #333;
+            color: white;
+            margin-top: 10px;
+        }
+
+        /* Screens Logic */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Loading Bar */
+        .loader-container {
+            width: 100%;
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .loader-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            transition: width 2s ease-in-out;
+        }
+
+        .status-text {
+            text-align: center;
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 10px;
+            min-height: 20px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: #252525;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .feature-card.active-feature {
+            border-color: var(--success);
+            background: #1a3a1a;
+            box-shadow: 0 0 5px var(--success);
+        }
+
+        .feature-title {
+            font-size: 0.8em;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+
+        .feature-value {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .section-header {
+            grid-column: span 2;
+            text-align: left;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        /* Animations */
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        /* Admin Key Display */
+        .admin-key-list {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #111;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #444;
+        }
+        
+        .admin-key-list li {
+            padding: 5px;
+            border-bottom: 1px solid #333;
+            font-family: monospace;
+            color: var(--success);
+        }
+
+        .btn-generate {
+            background: #333;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Fake Lag Effect */
+        .lag-effect {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+    
+    <!-- TELA DE LOGIN -->
+    <div id="loginScreen" class="screen active">
+        <h1>Auxílio FF</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">v3.0.2 [BETA]</p>
+        
+        <div class="input-group">
+            <input type="text" id="usernameInput" placeholder="Nome (Ex: ADMIN)">
+        </div>
+        <div class="input-group">
+            <input type="password" id="passInput" placeholder="Senha (Ex: ADMIN)">
+        </div>
+        <div class="input-group">
+            <input type="text" id="keyInput" placeholder="Chave de Acesso (Key)">
+        </div>
+
+        <div class="loader-container" id="loginLoader">
+            <div class="loader-bar" id="loginBar"></div>
+        </div>
+        <div class="status-text" id="loginStatus"></div>
+
+        <button onclick="attemptLogin()">ENTRAR</button>
+        <button class="secondary" onclick="showAdminPanel()">Área Admin (Debug)</button>
+    </div>
+
+    <!-- TELA DE GERADOR (ADMIN) -->
+    <div id="adminScreen" class="screen">
+        <h2>Painel Admin</h2>
+        <p style="font-size: 0.8em; color: #888;">Gerencie as Keys ativas:</p>
+        
+        <ul class="admin-key-list" id="keyListDisplay">
+            <!-- JS vai preencher aqui -->
+        </ul>
+
+        <button class="btn-generate" onclick="generateNewKey()">+ Gerar Nova Key</button>
+        <button class="secondary" onclick="switchScreen('loginScreen')">Voltar</button>
+    </div>
+
+    <!-- TELA DO DASHBOARD (JOGADOR) -->
+    <div id="dashboardScreen" class="screen">
+        <h2 id="welcomeUser">Olá, Jogador</h2>
+        
+        <div class="loader-container" id="initLoader">
+            <div class="loader-bar" id="initBar"></div>
+        </div>
+        <div class="status-text" id="dashStatus">Aguardando...</div>
+
+        <div class="dashboard-grid">
+            
+            <div class="section-header">REDE</div>
+            
+            <div class="feature-card" onclick="toggleFeature(this, 'Fake Lag')">
+                <div class="feature-title">FAKE LAG</div>
+                <div class="feature-value" id="val-lag">OFF</div>
+            </div>
+
+            <div class="feature-card" onclick="toggleFeature(this, 'Esp Aimbot')">
+                <div class="feature-title">ESP AIMBOT</div>
+                <div class="feature-value" id="val-esp">DESATIVADO</div>
+            </div>
+
+            <div class="section-header">GRÁFICO & FPS</div>
+
+            <div class="feature-card" onclick="cycleFPS(this)">
+                <div class="feature-title">FPS</div>
+                <div class="feature-value" id="val-fps">60 FPS</div>
+            </div>
+
+            <div class="feature-card" onclick="cycleHz(this)">
+                <div class="feature-title">HZ</div>
+                <div class="feature-value" id="val-hz">60 Hz</div>
+            </div>
+
+            <div class="section-header">SENSIBILIDADE</div>
+
+            <div class="feature-card" onclick="cycleSens(this)">
+                <div class="feature-title">SENSI</div>
+                <div class="feature-value" id="val-sens">NORMAL</div>
+            </div>
+
+            <div class="feature-card" onclick="cyclePerf(this)">
+                <div class="feature-title">PERFORMANCE</div>
+                <div class="feature-value" id="val-perf">NORMAL</div>
+            </div>
+
+            <div class="section-header">COMBATE</div>
+
+            <div class="feature-card" onclick="toggleFeature(this, 'No Recoil')">
+                <div class="feature-title">NO RECOIL</div>
+                <div class="feature-value" id="val-recoil">OFF</div>
+            </div>
+
+            <div class="feature-card" onclick="toggleFeature(this, 'Hatrick')">
+                <div class="feature-title">HATRICK</div>
+                <div class="feature-value" id="val-hatrick">OFF</div>
+            </div>
+
+        </div>
+
+        <button class="secondary" style="margin-top: 20px;" onclick="logout()">SAIR / LOGOUT</button>
+    </div>
+
+</div>
+
+<script>
+    // --- CONFIGURAÇÃO INICIAL E DADOS ---
+    
+    // Chaves pré-definidas (Simuladas)
+    let validKeys = [
+        "FF-8821-AZ",
+        "PRO-X99-BB",
+        "HEADSHOT-01",
+        "ULTRA-GAMER",
+        "SKILL-MAX",
+        "VIP-GOLD",
+        "FREE-FIRE-PRO",
+        "AIM-LINE",
+        "WALL-HACK-V2",
+        "ADMIN-MASTER"
+    ];
+
+    const adminCreds = { user: "ADMIN", pass: "ADMIN" };
+    let currentUser = "";
+    let currentKey = "";
+
+    // Elementos DOM
+    const loginBar = document.getElementById('loginBar');
+    const loginStatus = document.getElementById('loginStatus');
+    const mainContainer = document.getElementById('mainContainer');
+
+    // --- FUNÇÕES DE NAVEGAÇÃO ---
+
+    function switchScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function showAdminPanel() {
+        renderKeyList();
+        switchScreen('adminScreen');
+    }
+
+    // --- LÓGICA DE LOGIN ---
+
+    function attemptLogin() {
+        const user = document.getElementById('usernameInput').value.trim();
+        const pass = document.getElementById('passInput').value.trim();
+        const key = document.getElementById('keyInput').value.trim();
+
+        if (!user || !pass || !key) {
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        // Simula carregamento
+        loginStatus.innerText = "Validando credenciais...";
+        loginStatus.style.color = "#fff";
+        document.getElementById('loginLoader').style.display = 'block';
+        loginBar.style.width = '0%';
+        
+        setTimeout(() => { loginBar.style.width = '50%'; }, 100);
+
+        setTimeout(() => { 
+            // Validação
+            const isValidKey = validKeys.includes(key);
+            
+            if (isValidKey && user === "ADMIN" && pass === "ADMIN") {
+                 // Login Admin (mesmo sendo admin, ele entra no dashboard ou painel? O prompt diz que admin tem nova aba, mas se logar com admin, vamos tratar como usuário normal com acesso total ou mostrar mensagem)
+                 loginStatus.innerText = "ACESSO PERMITIDO!";
+                 loginStatus.style.color = "var(--success)";
+                 loginBar.style.width = '100%';
+                 
+                 setTimeout(() => {
+                     initDashboard(user);
+                 }, 500);
+            } else if (isValidKey) {
+                // Login Usuário Comum
+                loginStatus.innerText = "Conectando ao servidor...";
+                loginBar.style.width = '100%';
+                
+                setTimeout(() => {
+                    initDashboard(user);
+                }, 800);
+            } else {
+                loginStatus.innerText = "CHAVE INVÁLIDA OU CREDENCIAIS ERRADAS.";
+                loginStatus.style.color = "var(--error)";
+                loginBar.style.width = '0%';
+                shakeContainer();
+            }
+        }, 1000);
+    }
+
+    function shakeContainer() {
+        mainContainer.style.transform = "translateX(10px)";
+        setTimeout(() => mainContainer.style.transform = "translateX(-10px)");
+        setTimeout(() => mainContainer.style.transform = "translateX(10px)");
+        setTimeout(() => mainContainer.style.transform = "translateX(0)");
+    }
+
+    // --- LÓGICA DO DASHBOARD ---
+
+    function initDashboard(userName) {
+        currentUser = userName;
+        document.getElementById('welcomeUser').innerText = "Olá, " + userName;
+        switchScreen('dashboardScreen');
+        
+        // Animação inicial de "Ativando"
+        const statusEl = document.getElementById('dashStatus');
+        const loader = document.getElementById('initLoader');
+        const bar = document.getElementById('initBar');
+
+        loader.style.display = 'block';
+        bar.style.width = '0%';
+        statusEl.innerText = "Iniciando módulo...";
+
+        setTimeout(() => {
+            bar.style.width = '40%';
+            statusEl.innerText = "Conectando ao server...";
+        }, 500);
+
+        setTimeout(() => {
+            bar.style.width = '80%';
+            statusEl.innerText = "Aplicando configurações...";
+        }, 1500);
+
+        setTimeout(() => {
+            bar.style.width = '100%';
+            statusEl.innerText = "AUXÍLIO ATIVO!";
+            statusEl.style.color = "var(--success)";
+            statusEl.classList.add('blink');
+        }, 2500);
+
+        setTimeout(() => {
+            loader.style.display = 'none';
+            statusEl.classList.remove('blink');
+        }, 5000);
+    }
+
+    function logout() {
+        // Limpa inputs
+        document.getElementById('usernameInput').value = '';
+        document.getElementById('passInput').value = '';
+        document.getElementById('keyInput').value = '';
+        switchScreen('loginScreen');
+    }
+
+    // --- CONTROLES INTERATIVOS (TOGGLE/SET) ---
+
+    function toggleFeature(element, featureName) {
+        const isActive = element.classList.contains('active-feature');
+        const valueDisplay = element.querySelector('.feature-value');
+        
+        if (!isActive) {
+            element.classList.add('active-feature');
+            valueDisplay.innerText = "ON";
+            valueDisplay.style.color = "var(--success)";
+            playSound(true);
+        } else {
+            element.classList.remove('active-feature');
+            valueDisplay.innerText = "OFF";
+            valueDisplay.style.color = "var(--primary)";
+            playSound(false);
+        }
+    }
+
+    function cycleFPS(element) {
+        const val = document.getElementById('val-fps');
+        const options = ["60 FPS", "90 FPS", "120 FPS", "144 FPS"];
+        let current = options.indexOf(val.innerText);
+        let next = (current + 1) % options.length;
+        val.innerText = options[next];
+        triggerEffect('pulse');
+    }
+
+    function cycleHz(element) {
+        const val = document.getElementById('val-hz');
+        const options = ["60 Hz", "90 Hz", "120 Hz", "144 Hz"];
+        let current = options.indexOf(val.innerText);
+        let next = (current + 1) % options.length;
+        val.innerText = options[next];
+        triggerEffect('pulse');
+    }
+
+    function cycleSens(element) {
+        const val = document.getElementById('val-sens');
+        const options = ["BAIXA", "NORMAL", "ALTA"];
+        let current = options.indexOf(val.innerText);
+        let next = (current + 1) % options.length;
+        val.innerText = options[next];
+    }
+
+    function cyclePerf(element) {
+        const val = document.getElementById('val-perf');
+        const options = ["MÍNIMO", "NORMAL", "ULTRA"];
+        let current = options.indexOf(val.innerText);
+        let next = (current + 1) % options.length;
+        val.innerText = options[next];
+    }
+
+    // --- EFEITOS VISUAIS E SONOROS (SIMULADOS) ---
+
+    function triggerEffect(type) {
+        if (type === 'pulse') {
+            const btn = event.currentTarget;
+            btn.style.transform = "scale(0.95)";
+            setTimeout(() => btn.style.transform = "scale(1)", 100);
+        }
+    }
+
+    function playSound(active) {
+        // Apenas visual ou console log já que não temos audio files
+        // Em um app real, tocaria um beep
+    }
+
+    // --- LÓGICA DO ADMIN / GERADOR DE CHAVES ---
+
+    function generateNewKey() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let newKey = "FF-";
+        for(let i=0; i<4; i++) newKey += chars.charAt(Math.floor(Math.random() * chars.length));
+        newKey += "-";
+        for(let i=0; i<2; i++) newKey += chars.charAt(Math.floor(Math.random() * chars.length));
+
+        validKeys.push(newKey);
+        renderKeyList();
+        alert(`Nova chave gerada: ${newKey}`);
+    }
+
+    function renderKeyList() {
+        const list = document.getElementById('keyListDisplay');
+        list.innerHTML = "";
+        validKeys.forEach(k => {
+            const li = document.createElement('li');
+            li.innerText = k;
+            list.appendChild(li);
+        });
+    }
+
+    // Inicializa a lista ao carregar (opcional, só aparece quando clica no botão debug)
+    renderKeyList();
+
+</script>
+
+</body>
+</html>

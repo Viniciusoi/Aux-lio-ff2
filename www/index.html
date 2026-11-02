@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NuMenu</title>
-    <!-- Fonte similar à usada pelo Nubank -->
+    <title>Nu Screets</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Roboto+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap');
 
         :root {
-            --bg-color: #1a1a1a; /* Fundo escuro neutro */
-            --panel-bg: #2e2636; /* O Roxo clássico do Nubank */
-            --primary-purple: #8924bb; /* Logo/Brand Color */
-            --light-purple: #a55ea5;
-            --text-color: #ffffff;
-            --input-bg: #1a1a1a;
-            --border-color: #444;
+            /* Variáveis Tema Principal (Dark/Red) */
+            --bg-color: #0a0a0a;
+            --panel-bg: rgba(20, 20, 25, 0.95);
+            --primary-red: #ff2a2a;
+            --dark-red: #8b0000;
+            --text-color: #e0e0e0;
+            --input-bg: #15151a;
+            --border-color: #333;
             --success: #00ff41;
             --error: #ff003c;
-            --btn-hover: #6b1a8c;
+            
+            /* Variáveis Login (Nubank Style) */
+            --nu-white: #ffffff;
+            --nu-black: #000000;
+            --nu-purple: #8924bb;
+            --nu-gray: #a6a6b2;
         }
 
         * {
@@ -30,53 +35,62 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Nunito', sans-serif; /* Fonte arredondada e amigável */
+            background-color: #000;
+            font-family: 'Nunito', sans-serif; /* Default font for login */
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: relative;
-        }
-
-        /* Background Pattern Simulation */
-        .bg-pattern {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            opacity: 0.1;
-            background-image: 
-                radial-gradient(circle at 50% 50%, transparent 0%, var(--bg-color) 90%),
-                linear-gradient(0deg, transparent 95%, var(--primary-purple) 96%, transparent 97%),
-                linear-gradient(90deg, transparent 95%, var(--primary-purple) 96%, transparent 97%);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
-            pointer-events: none;
         }
 
         .container {
             position: relative;
-            z-index: 10;
             width: 100%;
             max-width: 400px;
             height: 100%;
-            max-height: 850px;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            overflow: hidden;
         }
 
-        /* LOGIN SCREEN */
+        /* --- BACKGROUND EFFECTS (MAIN MENU) --- */
+        .bg-pattern {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            background-image: 
+                radial-gradient(circle at 50% 50%, transparent 0%, var(--bg-color) 90%),
+                linear-gradient(0deg, transparent 95%, var(--primary-red) 96%, transparent 97%),
+                linear-gradient(90deg, transparent 95%, var(--primary-red) 96%, transparent 97%);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            pointer-events: none;
+            display: none; /* Hidden on login */
+        }
+
+        .geo-lines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            stroke: var(--primary-red);
+            stroke-width: 1;
+            fill: none;
+            opacity: 0.2;
+            display: none;
+        }
+
+        /* --- LOGIN SCREEN (NUBANK STYLE) --- */
         #login-screen {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
-            height: 100%;
-            background: var(--panel-bg);
-            border-radius: 15px; /* Bordas mais arredondadas estilo app moderno */
             padding: 30px;
-            box-shadow: 0 0 30px rgba(137, 36, 187, 0.2);
+            background: var(--nu-white);
+            color: var(--nu-black);
             transition: all 0.3s ease;
         }
 
@@ -85,110 +99,82 @@
             margin-bottom: 40px;
         }
 
-        /* NOVA LOGO ESTILO NUBANK */
-        .nu-logo-circle {
+        .logo-img {
             width: 60px;
-            height: 60px;
-            background-color: var(--primary-purple);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            box-shadow: 0 0 15px var(--primary-purple);
+            height: auto;
+            margin-bottom: 10px;
         }
 
-        .nu-logo-text {
-            font-size: 2rem;
-            font-weight: 800;
-            color: white;
-            letter-spacing: -0.5px;
-        }
-
-        .version {
-            font-size: 0.8rem;
-            color: #ccc;
-            font-family: 'Roboto Mono', monospace;
-            margin-top: 5px;
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--nu-black);
+            letter-spacing: 1px;
         }
 
         .input-group {
+            width: 100%;
             margin-bottom: 20px;
-            position: relative;
         }
 
         label {
             display: block;
             font-size: 0.9rem;
-            color: #ddd;
+            color: #333;
             margin-bottom: 8px;
-            font-weight: 700;
+            font-weight: 600;
         }
 
         input[type="text"] {
             width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            color: white;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            color: #000;
             padding: 15px;
             border-radius: 8px;
-            font-family: 'Roboto Mono', monospace;
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s;
+            font-family: 'Nunito', sans-serif;
         }
 
         input[type="text"]:focus {
-            border-color: var(--primary-purple);
-            box-shadow: 0 0 8px rgba(137, 36, 187, 0.4);
+            border-color: var(--nu-purple);
+            box-shadow: 0 0 0 2px rgba(137, 36, 187, 0.2);
         }
 
-        .btn-main {
+        .btn-nu {
             width: 100%;
             padding: 15px;
-            background: var(--primary-purple);
+            background: var(--nu-purple);
             border: none;
             color: white;
-            font-weight: 800;
-            font-size: 1.1rem;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 25px;
             cursor: pointer;
-            border-radius: 8px;
             margin-top: 10px;
-            transition: background 0.2s;
+            font-family: 'Nunito', sans-serif;
         }
 
-        .btn-main:hover {
-            background: var(--btn-hover);
-        }
-
-        .btn-main:active {
+        .btn-nu:active {
             transform: scale(0.98);
         }
 
         .status-msg {
-            text-align: center;
             height: 20px;
             font-size: 0.9rem;
-            margin-bottom: 15px;
-            font-weight: 700;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: center;
         }
 
-        .status-success { color: var(--success); }
-        .status-error { color: var(--error); }
-
-        .admin-btn {
-            background: transparent;
-            border: 1px solid #666;
-            color: #aaa;
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
-
-        /* MAIN MENU */
+        /* --- MAIN MENU (DARK THEME) --- */
         #main-menu {
             display: none;
             flex-direction: column;
             height: 100%;
+            padding: 20px;
+            background: var(--bg-color);
         }
 
         .header {
@@ -196,21 +182,22 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 15px;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid #333;
             margin-bottom: 15px;
         }
 
         .user-info {
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 600;
+            font-family: 'Rajdhani', sans-serif;
         }
 
         .close-btn {
-            width: 35px;
-            height: 35px;
-            background: #1a1a1a;
+            width: 30px;
+            height: 30px;
+            background: #222;
             border: 1px solid #444;
-            color: white;
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -227,19 +214,18 @@
 
         .tab {
             flex: 1;
-            padding: 10px;
-            background: #1a1a1a;
+            padding: 8px;
+            background: #111;
             border: 1px solid #333;
             text-align: center;
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 0.9rem;
-            border-radius: 6px;
         }
 
         .tab.active {
-            background: var(--primary-purple);
-            border-color: var(--primary-purple);
+            background: var(--dark-red);
+            border-color: var(--primary-red);
             color: white;
         }
 
@@ -249,39 +235,38 @@
             padding-right: 5px;
         }
 
-        /* Scrollbar custom */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: var(--primary-purple); }
+        ::-webkit-scrollbar-thumb { background: #444; }
 
         .section-title {
             font-size: 0.8rem;
-            color: #888;
+            color: #666;
             text-transform: uppercase;
             margin: 15px 0 5px 0;
             letter-spacing: 1px;
-            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
         }
 
         .control-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #2a2a2a;
+            padding: 10px 0;
+            border-bottom: 1px solid #1a1a1a;
         }
 
         .toggle-label {
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         /* Custom Checkbox */
         .switch {
             position: relative;
             display: inline-block;
-            width: 44px;
-            height: 24px;
+            width: 40px;
+            height: 20px;
         }
 
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -290,16 +275,16 @@
             position: absolute;
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #444;
+            background-color: #333;
             transition: .4s;
-            border-radius: 24px;
+            border-radius: 20px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 14px;
+            width: 14px;
             left: 3px;
             bottom: 3px;
             background-color: white;
@@ -308,7 +293,7 @@
         }
 
         input:checked + .slider {
-            background-color: var(--primary-purple);
+            background-color: var(--primary-red);
         }
 
         input:checked + .slider:before {
@@ -318,9 +303,9 @@
         /* Range Slider */
         .range-container {
             margin: 15px 0;
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 8px;
+            background: #111;
+            padding: 10px;
+            border-radius: 5px;
             border: 1px solid #333;
         }
 
@@ -329,7 +314,6 @@
             justify-content: space-between;
             margin-bottom: 8px;
             font-size: 0.9rem;
-            font-weight: 600;
         }
 
         input[type=range] {
@@ -340,13 +324,13 @@
 
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 18px;
-            width: 18px;
+            height: 16px;
+            width: 16px;
             border-radius: 50%;
-            background: var(--primary-purple);
+            background: var(--primary-red);
             cursor: pointer;
             margin-top: -6px;
-            box-shadow: 0 0 5px var(--primary-purple);
+            box-shadow: 0 0 5px var(--dark-red);
         }
 
         input[type=range]::-webkit-slider-runnable-track {
@@ -362,8 +346,8 @@
             width: 100%;
             background: var(--input-bg);
             border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 4px;
             color: white;
             font-family: 'Roboto Mono', monospace;
             margin-bottom: 10px;
@@ -374,21 +358,21 @@
         .inject-btn {
             width: 100%;
             padding: 15px;
-            background: var(--primary-purple);
+            background: var(--dark-red);
             border: none;
             color: white;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 1.1rem;
             text-transform: uppercase;
             margin-top: 20px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            border-radius: 8px;
+            font-family: 'Rajdhani', sans-serif;
         }
         
         .inject-btn.injecting {
-            background: #111;
+            background: #000;
             border: 1px solid var(--success);
             color: var(--success);
         }
@@ -408,7 +392,7 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
-            border-bottom: 1px solid var(--primary-purple);
+            border-bottom: 1px solid var(--primary-red);
             padding-bottom: 10px;
         }
 
@@ -418,22 +402,19 @@
             background: #111;
             padding: 10px;
             border: 1px solid #333;
-            border-radius: 8px;
         }
 
         .key-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #222;
             font-family: 'Roboto Mono', monospace;
             font-size: 0.85rem;
             color: #aaa;
-            cursor: pointer;
         }
         
-        .key-item span { color: var(--primary-purple); }
-        .key-item:active { background: #222; }
+        .key-item span { color: var(--primary-red); }
 
         .copy-hint {
             font-size: 0.7rem;
@@ -444,14 +425,18 @@
 
         /* Animations */
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(137, 36, 187, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(137, 36, 187, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(137, 36, 187, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 42, 42, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0); }
         }
 
         .pulse-anim {
             animation: pulse 2s infinite;
         }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .visible { display: flex !important; }
 
     </style>
 </head>
@@ -459,34 +444,58 @@
 
     <!-- Background Effects -->
     <div class="bg-pattern"></div>
+    <svg class="geo-lines" width="100%" height="100%">
+        <path d="M0,50 L100,50 M0,150 L100,150 M0,250 L100,250" />
+        <path d="M50,0 L50,100 M150,0 L150,100" />
+    </svg>
 
     <div class="container">
         
-        <!-- LOGIN SCREEN -->
-        <div id="login-screen">
-            <div class="logo-area">
-                <div class="nu-logo-circle">
-                    <span style="font-weight:800; font-size:1.5rem;">N</span>
+        <!-- TELA 1: CPF (Nubank Style) -->
+        <div id="cpf-screen">
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; padding:30px;">
+                <div class="logo-area">
+                    <!-- SVG Logo Nubank -->
+                    <svg class="logo-img" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="25" fill="#8924bb"/>
+                        <path d="M15 25 L25 15 L35 25 L25 35 Z" fill="white"/>
+                    </svg>
+                    <div class="logo-text">Nu Screets</div>
                 </div>
-                <div class="nu-logo-text">NU<span style="font-weight:400; font-size:1rem;">MENU</span></div>
-                <div class="version">v3.0.2 BETA</div>
+
+                <div id="cpf-status" class="status-msg"></div>
+
+                <div class="input-group">
+                    <label>CPF</label>
+                    <input type="text" id="cpf-input" placeholder="000.000.000-00" autocomplete="off">
+                </div>
+
+                <button class="btn-nu" onclick="checkCpf()">Continuar</button>
+            </div>
+        </div>
+
+        <!-- TELA 2: LOGIN REAL (Dark Theme) -->
+        <div id="login-screen" class="hidden">
+            <div class="logo-area">
+                <div class="logo-text">SOARES<span style="color:white; font-size:0.6em;">SCREETS</span></div>
+                <div class="version" style="font-size: 0.8rem; color: #666; font-family:'Roboto Mono'">v3.0.2 [BETA]</div>
             </div>
 
             <div id="login-status" class="status-msg"></div>
 
             <div class="input-group">
-                <label>NOME DO USUÁRIO</label>
-                <input type="text" id="username" placeholder="Seu nome" autocomplete="off">
+                <label>NOME (Ex: PLAYER)</label>
+                <input type="text" id="username" placeholder="Digite seu nome" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label>CHAVE DE ACESSO</label>
+                <label>CHAVE DE ACESSO (KEY)</label>
                 <input type="text" id="apikey" placeholder="XXXX-XXXX-XXXX" autocomplete="off">
             </div>
 
-            <button class="btn-main" onclick="attemptLogin()">ENTRAR</button>
+            <button class="btn-main" style="width:100%; padding:15px; background:var(--dark-red); border:1px solid var(--primary-red); color:white; font-weight:700; font-family:'Rajdhani'; font-size:1.1rem; cursor:pointer; border-radius:4px; margin-top:10px;" onclick="attemptLogin()">ENTRAR</button>
             
-            <button id="admin-login-btn" class="btn-main admin-btn" style="display:none;" onclick="showAdminPanel()">ÁREA ADMIN</button>
+            <button id="admin-login-btn" style="background:transparent; border:1px solid #444; color:#666; margin-top:10px; font-size:0.9rem; width:100%; padding:10px; cursor:pointer; display:none;" onclick="showAdminPanel()">ÁREA ADMIN (DEBUG)</button>
         </div>
 
         <!-- MAIN MENU -->
@@ -494,7 +503,7 @@
             <div class="header">
                 <div class="user-info">
                     <span id="display-name">USER</span>
-                    <span style="font-size:0.7rem; color:#888; display:block; font-family:'Roboto Mono'">BETA VERSION</span>
+                    <span style="font-size:0.7rem; color:#666; display:block; font-family:'Roboto Mono'">v3.0.2 BETA</span>
                 </div>
                 <div class="close-btn" onclick="logout()">✕</div>
             </div>
@@ -573,7 +582,7 @@
     <!-- ADMIN PANEL OVERLAY -->
     <div id="admin-panel">
         <div class="admin-header">
-            <h2 style="margin:0; color:white;">ADMIN DEBUG</h2>
+            <h2 style="margin:0; color:var(--primary-red);">ADMIN DEBUG</h2>
             <div class="close-btn" onclick="hideAdminPanel()">✕</div>
         </div>
         <div style="margin-bottom:10px; color:#888; font-size:0.8rem;">LISTA DE 20 CHAVES VÁLIDAS</div>
@@ -616,8 +625,12 @@
         renderAdminKeys();
 
         // --- DOM ELEMENTS ---
+        const cpfScreen = document.getElementById('cpf-screen');
         const loginScreen = document.getElementById('login-screen');
         const mainMenu = document.getElementById('main-menu');
+        const cpfStatus = document.getElementById('cpf-status');
+        const cpfInput = document.getElementById('cpf-input');
+        
         const loginStatus = document.getElementById('login-status');
         const usernameInput = document.getElementById('username');
         const apikeyInput = document.getElementById('apikey');
@@ -627,6 +640,24 @@
 
         // --- FUNCTIONS ---
 
+        // 1. Check CPF Screen
+        function checkCpf() {
+            cpfStatus.className = "status-msg";
+            cpfStatus.innerText = "";
+
+            // If empty, go to real login
+            if (!cpfInput.value.trim()) {
+                cpfScreen.classList.add('hidden');
+                loginScreen.classList.remove('hidden');
+                loginScreen.style.display = 'flex';
+                cpfScreen.style.display = 'none';
+            } else {
+                cpfStatus.innerText = "CPF não encontrado.";
+                cpfStatus.classList.add("status-error");
+            }
+        }
+
+        // 2. Attempt Login (Real)
         function attemptLogin() {
             const name = usernameInput.value.trim().toUpperCase();
             const key = apikeyInput.value.trim().toUpperCase();
@@ -656,6 +687,7 @@
             isAdminUser = isAdmin;
 
             setTimeout(() => {
+                loginScreen.classList.add('hidden');
                 loginScreen.style.display = 'none';
                 mainMenu.style.display = 'flex';
                 document.getElementById('display-name').innerText = name;
@@ -682,6 +714,7 @@
 
         function logout() {
             mainMenu.style.display = 'none';
+            loginScreen.classList.remove('hidden');
             loginScreen.style.display = 'flex';
             usernameInput.value = "";
             apikeyInput.value = "";
@@ -735,8 +768,12 @@
 
         // Allow Enter key to submit
         document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && loginScreen.style.display !== 'none') {
-                attemptLogin();
+            if (e.key === 'Enter') {
+                if (!loginScreen.classList.contains('hidden')) {
+                    attemptLogin();
+                } else if (!cpfScreen.classList.contains('hidden')) {
+                    checkCpf();
+                }
             }
         });
 
